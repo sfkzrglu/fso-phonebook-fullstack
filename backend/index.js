@@ -39,6 +39,10 @@ let persons = [
     }
 ]
 
+app.use((req, res, next) => {
+    console.log('Request URL:', req.originalUrl);
+    next();
+  });
 
 app.get('/api/persons', (request, response) => {
     response.json(persons)
