@@ -23,6 +23,13 @@ const PersonForm = (props) => {
                 phonebook.update(alreadyAddedPerson[0].id, newPerson)
                     .then(person => {
                         setPersons(persons.map(p => p.id == alreadyAddedPerson[0].id ? person : p))
+                        setNotificationMessage({
+                            message: `Number of ${newPerson.name} is changed.`,
+                            warningType: 'added'
+                        })
+                        setTimeout(() => {
+                            setNotificationMessage(null)
+                        }, 5000);
                     })
                     .catch(() => {
                         setNotificationMessage({
@@ -34,26 +41,31 @@ const PersonForm = (props) => {
                         }, 5000);
                         alert("asdasd")
                     })
-                setNotificationMessage({
-                    message: `Number of ${newPerson.name} is changed.`,
-                    warningType: 'added'
-                })
-                setTimeout(() => {
-                    setNotificationMessage(null)
-                }, 5000);
+
             }
         } else {
             phonebook.create(newPerson)
                 .then(person => {
                     setPersons([...persons, person])
+                    setNotificationMessage({
+                        message: `Added ${newPerson.name}`,
+                        warningType: 'added'
+                    })
+                    setTimeout(() => {
+                        setNotificationMessage(null)
+                    }, 5000);
                 })
-            setNotificationMessage({
-                message: `Added ${newPerson.name}`,
-                warningType: 'added'
-            })
-            setTimeout(() => {
-                setNotificationMessage(null)
-            }, 5000);
+                .catch(error => {
+                    setNotificationMessage({
+                        message: `${error.response.data.error}`,
+                        warningType: 'added'
+                    })
+                    setTimeout(() => {
+                        setNotificationMessage(null)
+                    }, 5000);
+                }
+                )
+
         }
         setNewName('')
         setNewNumber(0)
