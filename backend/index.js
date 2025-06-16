@@ -88,10 +88,17 @@ app.post('/api/persons', (request, response) => {
         number: body.number
     })
 
-    person.save().then(person => {
-        response.json(person)
-    })
+    let validation = person.validateSync();
+    if (validation) {
+        return response.status(400).json({
+            error: validation.errors['number'].message + ' is not a valid phone number!'
+        })
+    }
 
+    person.save()
+        .then(person => {
+            response.json(person)
+        })
     //return response.json(person)
 })
 

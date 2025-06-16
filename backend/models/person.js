@@ -19,7 +19,17 @@ const person = new mongoose.Schema({
     type: String,
     minLength: 3
   },
-  number: String,
+  number: {
+    type: String,
+    minLength: 8,
+    validate: {
+      validator: function (v) {
+        //start of string with 2/3 digits,dash,5 or more digits,end of string
+        return /^\d{2,3}-\d{5,}$/.test(v);
+      },
+      message: props => `${props.value} is not a valid phone number!`
+    }
+  },
 })
 
 person.set('toJSON', {

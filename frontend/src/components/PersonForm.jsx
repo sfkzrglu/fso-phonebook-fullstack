@@ -18,6 +18,7 @@ const PersonForm = (props) => {
         }
 
         const alreadyAddedPerson = persons.filter(item => item.name.toLowerCase() === newPerson.name.toLowerCase())
+        // Is there is a Person with a same name?
         if (alreadyAddedPerson.length > 0) {
             if (confirm(`${newName} is already added to phonebook. Replace the old number with a new one?`)) {
                 phonebook.update(alreadyAddedPerson[0].id, newPerson)
@@ -39,7 +40,6 @@ const PersonForm = (props) => {
                         setTimeout(() => {
                             setNotificationMessage(null)
                         }, 5000);
-                        alert("asdasd")
                     })
 
             }
@@ -58,7 +58,7 @@ const PersonForm = (props) => {
                 .catch(error => {
                     setNotificationMessage({
                         message: `${error.response.data.error}`,
-                        warningType: 'added'
+                        warningType: 'error'
                     })
                     setTimeout(() => {
                         setNotificationMessage(null)
