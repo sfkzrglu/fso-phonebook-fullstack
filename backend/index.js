@@ -46,9 +46,8 @@ app.get('/info', async (request, response) => {
         <div>${Date()}</div>`
         response.send(html)
     } catch (error) {
-        console.log("Error counting documents", error);
-    }
-
+        console.log('Error counting documents', error);
+  }
 })
 
 app.get('/api/person/:id', (request, response, next) => {
